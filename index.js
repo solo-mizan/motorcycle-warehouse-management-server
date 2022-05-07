@@ -13,19 +13,24 @@ app.use(express());
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.udusb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
+console.log(uri);
+
 async function run() {
     try {
         await client.connect();
-        const warehouseCollection = client.db('warehouse').collection('products');
+        const warehouseCollection = client.db('warehouse').collection('items');
+
+        app.get('/items', async (req, res) => {
+            const query = {};
+            const cursor = warehouseCollection.find(query);
+            const items = await cursor.toArray();
+            res.send(items);
+        })
+
 
     }
     catch { }
 }
-
-
-
-
-
 
 
 run().catch(console.dir);
