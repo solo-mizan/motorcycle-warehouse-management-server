@@ -37,12 +37,21 @@ async function run() {
         });
 
         // get specific item
-        app.get('/items/:id', async (req, res) => {
+        app.get('/item/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const item = await warehouseCollection.findOne(query);
             res.send(item);
         })
+
+        // delete 
+        app.delete('/item/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await warehouseCollection.deleteOne(query);
+            console.log(result);
+            res.send(result);
+        });
     }
     catch { }
 }
