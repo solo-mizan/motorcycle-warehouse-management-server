@@ -40,10 +40,10 @@ async function run() {
         // json web token for login
         app.post('/login', async (req, res) => {
             const user = req.body;
-            const tempToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
                 expiresIn: '1d'
             });
-            res.send({ tempToken });
+            res.send({ accessToken });
         })
 
 
